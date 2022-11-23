@@ -1,38 +1,67 @@
 .App {
-  text-align: center;
+    /*box-sizing: border-box;*/
+    margin: 0 auto 0;
+    width: 100vh;
+    height: calc(100vh - 100px);
+    /*background-color: #282c34;*/
+    /*border-radius: 70px;*/
+    padding: 50px 0;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Game {
+    margin: 0 auto;
+    width: calc(100vh - 100px - 100px);
+    height: calc(100vh - 100px - 100px);
+    box-sizing: border-box;
+    border-radius: 70px;
+    padding: 35px;
+    background-color: lightgray;
+    display: flex;
+    flex-wrap: wrap;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Block{
+    background-color: grey;
+    margin: 5px;
+    border-radius: 10px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.block2{
+    flex: 1 1 calc(50% - 10px);
 }
-
-.App-link {
-  color: #61dafb;
+.block3{
+    flex: 1 1 calc(33.3% - 10px);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.block4{
+    flex: 1 1 calc(25% - 10px);
+}
+.block5{
+    flex: 1 1 calc(20% - 10px);
+}
+.active{
+    background-color: white;
+}
+.Button{
+    padding: 16px 32px;
+    margin: 30px auto;
+    background-color: green;
+    color: white;
+    text-align: center;
+    max-width: 300px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.Modal{
+    position: absolute;
+    width: calc(100vh - 280px);
+    height: calc(100vh - 280px);
+    background-color: rgba(0, 0, 0, .4);
+    text-align: center;
+    border-radius: 10px;
+    font-size: 40px;
+    margin: 5px;
+    color: white;
+    font-weight: bold;
+}
+.Modal__text{
+    margin-top: calc(50vh - 160px);
 }
