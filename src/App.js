@@ -2,14 +2,15 @@ import {useState} from "react";
 import Game from "./components/Game";
 import './App.css';
 import Button from "./components/Button";
+import Header from "./components/Header";
 
 function App() {
   // уровень
-  const [level, setLevel] = useState(5);
+  const [level, setLevel] = useState(1);
   // размер поля (size*size)
-  const [size, setSize] = useState(4);
-  // счет
-  const [score, setScore] = useState(0);
+  const [size, setSize] = useState(2);
+  // промахи
+  const [missScore, setMissScore] = useState(0);
   // массив блоков
   const [blocks, setBlocks] = useState([]);
   // класс для поля
@@ -23,7 +24,7 @@ function App() {
   // индикатор видимости модального окна
   const [isModal, setIsModal] = useState(true);
   // текст модального окна
-  const [modalText, setModalText] = useState('Memory Game');
+  const [modalText, setModalText] = useState(`Memory Game`);
   // текст модального кнопки
   const [textButton, setTextButton] = useState('Н А Ч А Т Ь');
 
@@ -44,6 +45,7 @@ function App() {
 
   // добвляет класс к блокам
   function getGameClass(n){
+    // eslint-disable-next-line default-case
     switch (n) {
       case 2:
         return 'block2';
@@ -97,35 +99,72 @@ function App() {
         setIsActivate(false)
         setTimeout(() => {
           setIsModal(false)
-          startTimer()
         }, 1000 * level)
-
       }, 1000);
     }
   }
 
+  // обрабатывает клик по блоку
   function clickBlock(id){
-
+    if (activeBlock.includes(id)){
+      document.getElementById(id).style.backgroundColor = 'green';
+      setOpenBlock([...openBlock, id])
+      if (activeBlock.sort().toString() === [...openBlock, id].sort().toString()){
+        nextLevel()
+      }
+    }else{
+      if (missScore-1 < 0){
+        restartLevel()
+      }else{
+        setMissScore(missScore-1)
+      }
+      document.getElementById(id).style.backgroundColor = 'red';
+      setTimeout(() => {
+        document.getElementById(id).style.backgroundColor = 'grey';
+      }, 500)
+    }
   }
 
-  function startTimer(){
-    let sec = 59;
-    console.log('startTimer')
-    let timer = setInterval(() => {
-      if (sec < 1){
-        clearInterval(timer)
-      }
-      setTextButton(`0:${sec--}`);
-    }, 1000)
+  function restartLevel(){
+    activeBlock.map((item) => document.getElementById(item).style.backgroundColor = 'grey')
+    setIsModal(true)
+    setModalText(`Вы допустили слишком много ошибок`);
+    setTextButton(`ПЕРЕЗАПУСТИТЬ`);
+    setOpenBlock([])
+    setMissScore(Math.ceil((level)/3));
+    document.getElementById("startButton").style.backgroundColor = 'green';
+    setIsActivate(true)
+  }
+
+  function nextLevel(){
+    activeBlock.map((item) => document.getElementById(item).style.backgroundColor = 'grey')
+    setIsModal(true)
+    setModalText(`Уровень ${level + 1}`);
+    setTextButton(`Н А Ч А Т Ь`);
+    setOpenBlock([])
+    setMissScore(Math.ceil((level+1)/3));
+    if ((level+1) < 8 && (level+1) % 2 === 1 ){
+      setBlocks(dataField(size+1));
+      setGameClass(getGameClass(size+1));
+      setSize(size+1);
+    }
+    document.getElementById("startButton").style.backgroundColor = 'green';
+    setLevel(level + 1)
+    setIsActivate(true)
   }
 
   useState(() => {
     setBlocks(dataField(size));
     setGameClass(getGameClass(size));
+    setMissScore(Math.ceil((level+1)/3));
   }, []);
 
   return (
     <div className="App">
+      <Header
+        level={level}
+        missScore={missScore}
+      />
       <Game
         blocks={blocks}
         gameClass={gameClass}

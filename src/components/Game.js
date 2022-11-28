@@ -3,7 +3,7 @@ import Block from "./Block";
 import Button from "./Button";
 import Modal from "./Modal";
 
-export default function Game({ blocks, gameClass, modal, modalText }){
+export default function Game({ blocks, gameClass, modal, modalText, clickBlock }){
 
   return (
     <div className='Game'>
@@ -15,6 +15,7 @@ export default function Game({ blocks, gameClass, modal, modalText }){
             id={block.id}
             gameClass={gameClass}
             position={block.position}
+            clickBlock={clickBlock}
           />
         })
       }

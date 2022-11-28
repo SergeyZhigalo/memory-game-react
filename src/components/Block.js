@@ -1,8 +1,8 @@
-export default function Block({ gameClass, position, id}){
+export default function Block({ gameClass, position, id, clickBlock }){
     return (
       <div
         className={`Block ${gameClass}`}
-        onClick={()=>{console.log(position, id)}}
+        onClick={()=>{clickBlock(id)}}
         id={id}
       >
       </div>
